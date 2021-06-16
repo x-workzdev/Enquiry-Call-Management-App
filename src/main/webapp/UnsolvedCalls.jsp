@@ -13,20 +13,28 @@
 <link
 	href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css"
 	rel="stylesheet">
-<link
-	href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.dataTables.min.css"
-	rel="stylesheet">
+	
 <link
 	href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.dataTables.min.css"
 	rel="stylesheet">
 	
+<link
+	href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.dataTables.min.css"
+	rel="stylesheet">
+	
+<link
+	href="https://cdn.datatables.net/rowgroup/1.1.3/css/rowGroup.dataTables.min.css"
+	rel="stylesheet">	
+	
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
 
 <link rel="stylesheet" type="text/css" href="./css/index.css">
+<meta name="contextPath" content="${pageContext.request.contextPath}" />
+
 <style>
 h3 {
 	color: white;
-}    
+} 
 </style>
 </head>
 
@@ -70,6 +78,8 @@ h3 {
 			</div>
 			<div class="container container_border ">
 				<div class="container" style="align-content: flex-start;">
+				
+				<div id="searchButtons"></div>
                      
 					<table id="example" class="table table-striped table-bordered"
 						style="width: 100%">
@@ -82,8 +92,8 @@ h3 {
 								<th>EMAIL ID</th>
 								<th>COURSE</th>
 								<th>STATUS</th>
+								<th>INTRESTED DATE</th>
 								<th>SUB STATUS</th>
-								<th>INTRESTED DATE<th>
 								<th>COMMENTS</th>
 								<th>SEND OTP</th>
 								<th>SUBMIT OTP</th>
@@ -101,14 +111,15 @@ h3 {
 									<td>${callList.emailId}</td>
 									<td>${callList.course}</td>
 									<td>${callList.status}</td>
+									<td>${callList.intrestedDate}</td>
 									<td>${callList.subStatus}</td>
-									<td>${callList.intrestedDate}</td>	
 									<td>${callList.comments}</td>
-									<td>
+									<td><%-- <form method="post" action="sendOTP.do"> --%>
 									    <input id="currentEnquiry" type="hidden" type="number" value="${callList.enquiryId}" name="enquiryId">  
 									    <button onclick="sendOTP(${callList.enquiryId})" class="btn btn-primary">Send OTP</button>
-									    <span id="sendingOTP" style="display: none"><i class="fa fa-spinner fa-spin"></i> Sending...</span>
-									    <span id="sentOTP" style="display: none"><i class="fa fa-check"></i> Sent</span>
+									    <span class="sendingOTP" style="display: none;"><i class="fa fa-spinner fa-spin"></i> Sending...</span>
+									    <span class="sentOTP" style="display: none;"><i class="fa fa-check"></i> Sent</span>
+										<!-- </form> -->
 									</td>
 									<td><form method="post" action="validateUnsolvedCallOTP.do">
 									    <input type="hidden" type="number" value="${callList.enquiryId}" name="enquiryId">
@@ -127,8 +138,8 @@ h3 {
 								<th>EMAIL ID</th>
 								<th>COURSE</th>
 								<th>STATUS</th>
+								<th>INTRESTED DATE</th>
 								<th>SUB STATUS</th>
-								<th>INTRESTED DATE<th>
 								<th>COMMENTS</th>
 								<th>SEND OTP</th>
 								<th>SUBMIT OTP</th>
@@ -150,9 +161,11 @@ h3 {
 	<script
 		src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 	<script
+		src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>	
+	<script
 		src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js"></script>
 	<script
-		src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+		src="https://cdn.datatables.net/rowgroup/1.1.3/js/dataTables.rowGroup.min.js"></script>		
 
 	<script type="text/javascript" src="./js/index.js"></script>
 </body>

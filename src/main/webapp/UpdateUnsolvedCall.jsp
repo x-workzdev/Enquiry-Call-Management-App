@@ -191,8 +191,8 @@
 								 SUB STATUS<sup>*</sup>:
 								</h5></td>
 							<td>						
-							  <select name="status" class="custom-select custom-select-lg sm-3">
-								     <option value="Completed Call" label="Completed Call" selected/>
+							  <select name="subStatus" class="custom-select custom-select-lg sm-3">
+								     <option value="Completed Call" label="Call Completed" selected/>
 							  </select> 
 							</td>
 						</tr>

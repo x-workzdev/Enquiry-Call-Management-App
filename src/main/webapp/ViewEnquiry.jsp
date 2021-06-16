@@ -83,7 +83,7 @@ label {
 						</label> <span><button class="btn btn-primary">Search</button></span>
 					</form>					
 			
-                    <form action="getLatestEnquiries.do" method="post" style="margin-bottom: 0.5%;">
+                    <form action="getLatestEnquiries.do" method="GET" style="margin-bottom: 0.5%;">
 					   <button class="btn btn-primary">Latest 30 Enquiries</button>
                      </form>
 					

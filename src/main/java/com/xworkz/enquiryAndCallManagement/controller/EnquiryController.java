@@ -253,19 +253,23 @@ public class EnquiryController {
 	@RequestMapping(value = "/updateEnquiryById.do", method = RequestMethod.POST)
 	public ModelAndView updateEnquiryById(EnquiryCallDTO enquiryDTO) {
 		logger.debug("invoked updateEnquiryById() in controller");
-		ModelAndView modelAndView = new ModelAndView("ViewEnquiry");
+		ModelAndView modelAndView = new ModelAndView("UpdateEnquiry");
 		try {
 			if (Objects.nonNull(enquiryDTO)) {
 				boolean validate = enquiryService.updateEnquiryById(enquiryDTO);
 				if (Objects.nonNull(validate)) {
 		   			logger.info("Enquiry Updated Successfully");
-					modelAndView.addObject("msg", "Enquiry Updated Successfully");
-					return modelAndView;
+		   			ModelAndView modelAndV = getRecentEnquiries();
+		   			return modelAndV.addObject("msg", "Enquiry Updated Successfully");				 
 				} else {
 					logger.info("Enquiry Not Updated");
-					modelAndView.addObject("msg", "Not able to Update the Enquiry, Please try again!");
+					modelAndView.addObject("msg", "Not able to Update the Enquiry!, Please try again!");
 					return modelAndView;
 				}
+			}
+			else {
+				modelAndView.addObject("msg", "Not able to Find the Enquiry!, Please try again!");
+				return modelAndView;
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);

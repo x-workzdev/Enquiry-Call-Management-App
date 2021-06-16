@@ -170,6 +170,10 @@
 							  </select> 
 							</td>
 						</tr>
+						
+						<tr>
+							<td><input name="status" type="hidden" value="${enquiry.status}"/></td>
+						</tr>
 
 						<tr>
 							<td><h5>

@@ -186,7 +186,12 @@ $(document).ready(function() {
 		responsive : true,
 		scrollY : 500,
 		deferRender : true,
-		scroller : true
+		scroller : true,
+		
+		order: [[6, 'asc']],
+        rowGroup: {
+            dataSrc: 6,
+        }
 	});
 
 	new $.fn.dataTable.FixedHeader(table);

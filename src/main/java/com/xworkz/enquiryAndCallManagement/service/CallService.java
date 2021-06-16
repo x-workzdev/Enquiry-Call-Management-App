@@ -9,7 +9,7 @@ public interface CallService {
 
 	public List<EnquiryCallEntity> getNewCalls();
 	
-	public String sendOTPSMS(int enquiryId);
+	public boolean sendOTPSMS(int enquiryId, String onetimepass);
 	
 	public String genarateOTP();
 	

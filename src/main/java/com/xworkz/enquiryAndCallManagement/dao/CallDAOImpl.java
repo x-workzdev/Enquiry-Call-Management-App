@@ -163,7 +163,7 @@ public class CallDAOImpl implements CallDAO {
 		
 	}
 	
-	private Timestamp getTimeStamp() {
+	public Timestamp getTimeStamp() {
 		Date date = new Date();
 		Timestamp currentTimestamp = new Timestamp(date.getTime());
 		logger.debug("Timestamp:{}", currentTimestamp);

@@ -1,12 +1,12 @@
 package com.xworkz.enquiryAndCallManagement.service;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,16 +54,15 @@ public class CallServiceImpl implements CallService {
 	private String SMSusername;
 	@Value("${sender}")
 	private String sender;
-	@Value("${simpleSMS}")
-	private String simpleSMS;
+	@Value("${typeOfSMS}")
+	private String typeOfSMS;
 	@Value("${route}")
 	private String route;
-	
-	@Value("${SMSmessage}")
-	private String message;
-	
 	@Value("${templateId}")
 	private String templateId;
+	@Value("${smsSuccess}")
+	private String smsSuccess;
+	
 		
 	public CallServiceImpl() {
 		logger.debug("created " + this.getClass().getSimpleName());
@@ -129,27 +128,42 @@ public class CallServiceImpl implements CallService {
 	
 
 	@Override
-	public String sendOTPSMS(int enquiryId) {
+	public boolean sendOTPSMS(int enquiryId,String onetimepass) {
 		String response = null;
+		String  status  = null;
 		try {
 			EnquiryCallDTO callEnquiry = enquiryService.getEnquiryById(enquiryId);
 			String mobileNumber = callEnquiry.getMobileNo();
 			
 			if(Objects.nonNull(mobileNumber)){
-			logger.debug("smsType is :{} mobileNumber is :{} message is: {}",simpleSMS,mobileNumber,message);
+			String smsMessage = "Dear "+callEnquiry.getFullName()+"," +'\n'+ "Your one-time password (OTP) for X-workz Enquiry is "+onetimepass+'\n'+'\n'+"See you soon,"+'\n'+"X-workz";	
+	
+			logger.debug("smsType is :{} mobileNumber is :{} message is: {}",typeOfSMS,mobileNumber,smsMessage);
 			
 			response = callDAO.sendSMS(encryptionHelper.decrypt(apiKey), encryptionHelper.decrypt(SMSusername),encryptionHelper.decrypt(sender),
-					mobileNumber, message,simpleSMS, route,templateId);
+					mobileNumber, smsMessage,typeOfSMS, route,templateId);
 			
 			logger.info("SingleSMS Result is {}", response);
-			return response;
+			JSONObject json = new JSONObject(response);
+			status = json.getString("message");
+			if (status.equals(smsSuccess)) {
+				return true;
+			}
+			else {
+				logger.info("SingleSMS Result is {}", response);
+				return false;
+			}
+			
+			}
+			else {
+				logger.info("SingleSMS Result is {}", response);
+				return false;
 			}
 			
 		} catch (Exception e) {
 			logger.error("\n\nMessage is {} and exception is {}\n\n\n\n\n", e.getMessage(), e);
-			return response;
+			return false;
 		}
-	  return response;
 	}
 
 	@Override
@@ -191,7 +205,7 @@ public class CallServiceImpl implements CallService {
 		EnquiryCallDTO callEnquiry = enquiryService.getEnquiryById(enquiryId);
 		
 		if(Objects.nonNull(callEnquiry.getOtp())) {
-			 long diffMinutes = calculateTimeDiff(callEnquiry.getDateTime(), getTimeStamp());
+			 long diffMinutes = calculateTimeDiff(callEnquiry.getDateTime(), callDAO.getTimeStamp());
 			 logger.debug("diffMinutes:"+diffMinutes);
 			 
 		   if (callEnquiry.getOtp().equals(enentredOTP) && diffMinutes > -30) {
@@ -213,14 +227,6 @@ public class CallServiceImpl implements CallService {
 		long diff = dbTimeStamp.getTime() - currenrTimeStamp.getTime();
 		long minutes = TimeUnit.MILLISECONDS.toMinutes(diff);
 		return minutes;
-	}
-
-	
-	private Timestamp getTimeStamp() {
-		Date date = new Date();
-		Timestamp currentTimestamp = new Timestamp(date.getTime());
-		logger.debug("Timestamp:{}", currentTimestamp);
-		return currentTimestamp;
 	}
 
 	@Override
