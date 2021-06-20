@@ -178,40 +178,21 @@ function sendOTP(enquiryId){
 	    });
 	});
 	
+	document.querySelector("#today").valueAsDate = new Date();
+	
 	}
 
 
 $(document).ready(function() {
 	var table = $('#example').DataTable({
+		searching: true,
 		responsive : true,
-		scrollY : 500,
-		deferRender : true,
-		scroller : true,
-		
-		order: [[6, 'asc']],
-        rowGroup: {
-            dataSrc: 6,
-        },
-        
-        columns: [
-            { "callList": "dateTime" },
-            { "callList": "fullName" },
-            { "callList": "mobileNo" },
-            { "callList": "alternateMobileNo" },
-            { "callList": "emailId" },
-            { "callList": "course" },
-            { "callList": "status" },
-            { "callList": "intrestedDate"},
-            { "callList": "subStatus"},
-            { "callList": "comments"},
-           
-        ]
 	});
 
 	new $.fn.dataTable.FixedHeader(table);
 });
 
-function getEnquiryByStatus() {
+/*function getEnquiryByStatus() {
     var contextPath = $("meta[name='contextPath']").attr("content");
 	var EnquiryDTO = {};
 	fillteredStatus = document.querySelector('#statusFilter').value;
@@ -240,11 +221,5 @@ function getEnquiryByStatus() {
          }
 	});
 }
+*/
 
-$(document).ajaxStart(function() {
-	  $("#loading").show();
-	}).ajaxStop(function() {
-	  $("#loading").hide();
-	});
-
-document.querySelector("#today").valueAsDate = new Date();

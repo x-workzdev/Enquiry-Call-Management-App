@@ -124,6 +124,10 @@ textarea {
 input, button, select, optgroup, textarea {
     background-color: lightseagreen;
 }
+
+.dataTables_info{
+	color: white;
+}
     
 #partitioned {
   padding-left: 18px;

@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -225,23 +224,17 @@ public class CallController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value = "/getEnquiryByStatus.do", method = RequestMethod.POST)
-	public List<EnquiryCallEntity> getEnquiryByStatus(@RequestBody EnquiryCallDTO enquiryDTO) {
-		logger.debug("invoked getEnquiryByStatus() in controller");
-		List<EnquiryCallEntity> callList = null;
-		try {
-			callList = callService.getEnquiryByStatus(enquiryDTO.getStatus());
-			if (Objects.nonNull(callList)) {
-				logger.info("Fetched New Calls Successfully");
-				return callList;
-			} else {
-				logger.info("No Calls found at the time, Please try after sometime");
-				return callList;
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return callList;
-		}
-	}
-
+	/*
+	 * @RequestMapping(value = "/getEnquiryByStatus.do", method =
+	 * RequestMethod.POST) public List<EnquiryCallEntity>
+	 * getEnquiryByStatus(@RequestBody EnquiryCallDTO enquiryDTO) {
+	 * logger.debug("invoked getEnquiryByStatus() in controller");
+	 * List<EnquiryCallEntity> callList = null; try { callList =
+	 * callService.getEnquiryByStatus(enquiryDTO.getStatus()); if
+	 * (Objects.nonNull(callList)) { logger.info("Fetched New Calls Successfully");
+	 * return callList; } else {
+	 * logger.info("No Calls found at the time, Please try after sometime"); return
+	 * callList; } } catch (Exception e) { logger.error(e.getMessage(), e); return
+	 * callList; } }
+	 */
 }
