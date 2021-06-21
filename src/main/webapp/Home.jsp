@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
-<!DOCTYPE html>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!doctype html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -122,6 +122,62 @@ li button {
 						</div>
 					</div>
 				</div>
+				
+					<table id="hometable" class="table table-striped table-bordered"
+						style="width: 100%;display: none;">
+						<thead style="color: black; background-color: brown;">
+							<tr>
+								<th>TIME STAMP</th>
+								<th>FULL NAME</th>
+								<th>MOBILE</th>
+								<th>ALTERNATE MOBILE</th>
+								<th>EMAIL ID</th>
+								<th>COURSE</th>
+								<th>STATUS</th>
+								<th>INTRESTED DATE</th>
+								<th>SUB STATUS</th>
+								<th>COMMENTS</th>
+								<th>SEND OTP</th>
+								<th>SUBMIT OTP</th>
+
+							</tr>
+						</thead>
+
+						<tbody style="color: white;">
+							<c:forEach var="callList" items="${callList}">
+								<tr>
+									<td><fmt:formatDate type="both" dateStyle="short"
+											timeStyle="short" value="${callList.dateTime}" /></td>
+									<td>${callList.fullName}</td>
+									<td>${callList.mobileNo}</td>
+									<td>${callList.alternateMobileNo}</td>
+									<td>${callList.emailId}</td>
+									<td>${callList.course}</td>
+									<td>${callList.status}</td>
+									<td>${callList.intrestedDate}</td>
+									<td>${callList.subStatus}</td>
+									<td>${callList.comments}</td>
+									<td><input id="currentEnquiry" type="hidden" type="number"
+										value="${callList.enquiryId}" name="enquiryId">
+										<button onclick="sendOTP(${callList.enquiryId})"
+											class="btn btn-primary">Send OTP</button> <span
+										class="sendingOTP" style="display: none;"><i
+											class="fa fa-spinner fa-spin"></i> Sending...</span> <span
+										class="sentOTP" style="display: none;"><i
+											class="fa fa-check"></i> Sent</span> <!-- </form> --></td>
+									<td><form method="post"
+											action="validateUnsolvedCallOTP.do">
+											<input type="hidden" type="number"
+												value="${callList.enquiryId}" name="enquiryId"> <input
+												id="partitioned" type="text" maxlength="6" name="otp"
+												required="required" />
+											<button class="btn btn-success">Submit</button>
+										</form></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>				
+					
 
 				<form name="newenq" class="newEnquiry" method="POST"
 					action="newEnquiry.do" style="margin-top: 8%;">
@@ -312,8 +368,7 @@ li button {
 					</table>
 				</form>
 
-				<form class="getCloudEnquiries" action="downloadEnquirySchedule.do"
-					method="get">
+				<form class="getCloudEnquiries" action="downloadEnquirySchedule.do" method="get">
 					<table class="col-md-6 table table-bordered table-dark" border="1"
 						border-color="white" align="center" style="color: white">
 						<tr>
@@ -332,6 +387,47 @@ li button {
          <div>
 			<nav class="navbar navbar-expand-md navbar-dark bg-dark"></nav>
 		</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>	
+		
+<script type="text/javascript">
+var contextPath = $("meta[name='contextPath']").attr("content");
+
+	$(document).ready(function() {
+    var table = $('#hometable').DataTable({
+    	ajax: {
+    	    url: contextPath+"/getAllCalls.do",
+    	    type: "GET"
+    	  },
+    	  columns: [
+              { "data": "dateTime" },
+              { "data": "fullName" },
+              { "data": "mobileNo" },
+              { "data": "alternateMobileNo" },
+              { "data": "emailId" },
+              { "data": "course" },
+              { "data": "catorce" },
+              { "data": "status" },
+              { "data": "intrestedDate" },
+              { "data": "subStatus" },
+              { "data": "comments" },
+              { "data": "trimestre" }
+          ],
+        searchPanes: {
+        	columns: [1,3],
+            viewTotal: true
+        },
+        paging:false,
+        info:false,
+        ordering: false,
+        searching: false,
+        dom: 'Plfrtip'
+    });
+});
+</script>		
+			
 	<!-- Latest compiled JavaScript -->
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
@@ -345,6 +441,11 @@ li button {
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+		
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/searchpanes/1.3.0/js/dataTables.searchPanes.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>		
 	<script type="text/javascript" src="./js/index.js"></script>
 </body>
 </html>
