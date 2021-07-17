@@ -301,7 +301,7 @@ public class CallServiceImpl implements CallService {
 
 					  		MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
 							messageHelper.setTo(toMailID);
-							//messageHelper.setCc(ccmailID);
+							messageHelper.setCc(ccmailID);
 							messageHelper.setSubject(toMailReminderSubject);
 							messageHelper.setText(content, true);
 						};
